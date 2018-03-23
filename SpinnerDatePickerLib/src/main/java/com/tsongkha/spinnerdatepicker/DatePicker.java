@@ -18,6 +18,7 @@ package com.tsongkha.spinnerdatepicker;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.InputType;
@@ -65,6 +66,8 @@ public class DatePicker extends FrameLayout {
 
     private EditText mYearSpinnerInput;
 
+    private TextView mCustomButton;
+
     private Context mContext;
 
     private OnDateChangedListener mOnDateChangedListener;
@@ -87,6 +90,12 @@ public class DatePicker extends FrameLayout {
 
     private boolean mIsDayShown = true;
 
+    private boolean mIsAddCustomButton = false;
+
+    private Drawable mCustomButtonDrawable;
+
+    private String mCustomButtonText;
+
     DatePicker(ViewGroup root, int numberPickerStyle) {
         super(root.getContext());
         mContext = root.getContext();
@@ -98,6 +107,17 @@ public class DatePicker extends FrameLayout {
                                                                            numberPickerStyle).getSystemService(
                 Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.date_picker_container, this, true);
+
+        mCustomButton = findViewById(R.id.custom_button);
+
+        mCustomButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mOnDateChangedListener != null) {
+                    mOnDateChangedListener.onCustomButtonClick(0);
+                }
+            }
+        });
 
         mPickerContainer = findViewById(R.id.parent);
 
@@ -180,8 +200,11 @@ public class DatePicker extends FrameLayout {
     }
 
     void init(int year, int monthOfYear, int dayOfMonth,
-              boolean isDayShown, OnDateChangedListener onDateChangedListener) {
-        mIsDayShown = isDayShown;
+              boolean mIsDayShown, boolean mCustomButton, OnDateChangedListener onDateChangedListener, Drawable mCustomButtonDrawable, String customButtonText) {
+        this.mIsDayShown = mIsDayShown;
+        this.mIsAddCustomButton = mCustomButton;
+        this.mCustomButtonDrawable = mCustomButtonDrawable;
+        this.mCustomButtonText = customButtonText;
         setDate(year, monthOfYear, dayOfMonth);
         updateSpinners();
         mOnDateChangedListener = onDateChangedListener;
@@ -383,6 +406,17 @@ public class DatePicker extends FrameLayout {
     }
 
     private void updateSpinners() {
+
+        mCustomButton.setVisibility(mIsAddCustomButton ? View.VISIBLE : View.GONE);
+
+        if(mIsAddCustomButton && mCustomButtonDrawable != null) {
+            mCustomButton.setBackground(mCustomButtonDrawable);
+        }
+
+        if(mIsAddCustomButton && mCustomButtonText != null) {
+            mCustomButton.setText(mCustomButtonText);
+        }
+
         // set the spinner ranges respecting the min and max dates
         mDaySpinner.setVisibility(mIsDayShown ? View.VISIBLE : View.GONE);
         if (mCurrentDate.equals(mMinDate)) {

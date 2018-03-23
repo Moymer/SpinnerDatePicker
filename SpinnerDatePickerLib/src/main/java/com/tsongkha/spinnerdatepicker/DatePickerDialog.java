@@ -4,10 +4,12 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -29,6 +31,9 @@ public class DatePickerDialog extends AlertDialog implements OnClickListener,
 
     private boolean mIsDayShown = true;
     private boolean mIsTitleShown = true;
+    private boolean mIsCustomButtonShow = false;
+    private String mCustomButtonText;
+    private Drawable mCustomButtonDrawable;
 
     /**
      * The callback used to indicate the user is done filling in the date.
@@ -52,14 +57,18 @@ public class DatePickerDialog extends AlertDialog implements OnClickListener,
                      Calendar minDate,
                      Calendar maxDate,
                      boolean isDayShown,
-                     boolean isTitleShown) {
+                     boolean isTitleShown,
+                     boolean isCustomButtonShow,
+                     Drawable customButtonDrawable, String customButtonText) {
         super(context, theme);
 
         mCallBack = callBack;
         mTitleDateFormat = DateFormat.getDateInstance(DateFormat.LONG);
         mIsDayShown = isDayShown;
+        mIsCustomButtonShow = isCustomButtonShow;
         mIsTitleShown = isTitleShown;
-
+        mCustomButtonDrawable = customButtonDrawable;
+        mCustomButtonText = customButtonText;
         updateTitle(defaultDate);
 
         setButton(BUTTON_POSITIVE, context.getText(android.R.string.ok),
@@ -74,7 +83,8 @@ public class DatePickerDialog extends AlertDialog implements OnClickListener,
         mDatePicker = new DatePicker((ViewGroup) view, spinnerTheme);
         mDatePicker.setMinDate(minDate.getTimeInMillis());
         mDatePicker.setMaxDate(maxDate.getTimeInMillis());
-        mDatePicker.init(defaultDate.get(Calendar.YEAR), defaultDate.get(Calendar.MONTH), defaultDate.get(Calendar.DAY_OF_MONTH), isDayShown, this);
+        mDatePicker.init(defaultDate.get(Calendar.YEAR), defaultDate.get(Calendar.MONTH), defaultDate.get(Calendar.DAY_OF_MONTH), mIsDayShown,
+                mIsCustomButtonShow, this, mCustomButtonDrawable,mCustomButtonText);
 
     }
 
@@ -94,6 +104,12 @@ public class DatePickerDialog extends AlertDialog implements OnClickListener,
         updatedDate.set(Calendar.MONTH, monthOfYear);
         updatedDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         updateTitle(updatedDate);
+    }
+
+    @Override
+    public void onCustomButtonClick(int date) {
+        mCallBack.onDateSet(mDatePicker, date,
+                date, date);
     }
 
     private void updateTitle(Calendar updatedDate) {
@@ -127,6 +143,6 @@ public class DatePickerDialog extends AlertDialog implements OnClickListener,
         c.set(Calendar.MONTH, month);
         c.set(Calendar.DAY_OF_MONTH, day);
         updateTitle(c);
-        mDatePicker.init(year, month, day, mIsDayShown, this);
+        mDatePicker.init(year, month, day, mIsDayShown, mIsCustomButtonShow, this, mCustomButtonDrawable, mCustomButtonText);
     }
 }

@@ -14,4 +14,6 @@ public interface OnDateChangedListener {
      * @param dayOfMonth  The day of the month that was set.
      */
     void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth);
+
+    void onCustomButtonClick(int date);
 }

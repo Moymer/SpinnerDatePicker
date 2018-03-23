@@ -1,6 +1,7 @@
 package com.tsongkha.spinnerdatepicker;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -11,6 +12,9 @@ public class SpinnerDatePickerDialogBuilder {
     private DatePickerDialog.OnDateSetListener callBack;
     private boolean isDayShown = true;
     private boolean isTitleShown = true;
+    private boolean isCustomButtonShow = false;
+    private String customButtonText;
+    private Drawable mCustomButtonDrawable;
     private int theme = -1;                 //default theme
     private int spinnerTheme = -1;          //default theme
     private Calendar defaultDate = new GregorianCalendar(1980, 0, 1);
@@ -63,10 +67,21 @@ public class SpinnerDatePickerDialogBuilder {
         return this;
     }
 
+    public SpinnerDatePickerDialogBuilder showCustomButton(boolean customButton,String customButtonText) {
+        this.isCustomButtonShow = customButton;
+        this.customButtonText = customButtonText;
+        return this;
+    }
+
+    public SpinnerDatePickerDialogBuilder customButtonDrawable(Drawable customButtonDrawable) {
+        this.mCustomButtonDrawable = customButtonDrawable;
+        return this;
+    }
+
     public DatePickerDialog build() {
         if (context == null) throw new IllegalArgumentException("Context must not be null");
         if (maxDate.getTime().getTime() <= minDate.getTime().getTime()) throw new IllegalArgumentException("Max date is not after Min date");
 
-        return new DatePickerDialog(context, theme, spinnerTheme, callBack, defaultDate, minDate, maxDate, isDayShown, isTitleShown);
+        return new DatePickerDialog(context, theme, spinnerTheme, callBack, defaultDate, minDate, maxDate, isDayShown, isTitleShown,isCustomButtonShow,mCustomButtonDrawable,customButtonText);
     }
 }

@@ -22,20 +22,38 @@
 <!-- The width of this container is manually set a little bigger than the one of the children
      contained in it. This helps to prevent rounding errors when toggling the "Show year" option -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_gravity="center_horizontal"
-              android:layout_width="270dip"
-              android:layout_height="wrap_content">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical">
 
     <!-- Warning: everything within the parent is removed and re-ordered depending
          on the date format selected by the user. -->
     <LinearLayout
         android:id="@+id/parent"
-        android:orientation="horizontal"
-        android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal">
 
     </LinearLayout>
-</LinearLayout>
+
+    <TextView
+        android:id="@+id/custom_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:textAlignment="center"
+        android:layout_centerHorizontal="true"
+        android:textSize="16sp"
+        android:paddingBottom="20dp"
+        android:paddingEnd="20dp"
+        android:paddingStart="20dp"
+        android:paddingTop="20dp"
+        android:textColor="#11B4E2" />
+</RelativeLayout>

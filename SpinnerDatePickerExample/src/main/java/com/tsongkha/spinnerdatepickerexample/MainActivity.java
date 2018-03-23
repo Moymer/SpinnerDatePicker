@@ -55,6 +55,10 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 .context(MainActivity.this)
                 .callback(MainActivity.this)
                 .spinnerTheme(spinnerTheme)
+                .showCustomButton(true,"Ainda estou trabalhando aqui")
+                .showDaySpinner(false)
+                .showTitle(false)
+                .customButtonDrawable(this.getResources().getDrawable(R.drawable.rounded_button_5dp))
                 .defaultDate(year, monthOfYear, dayOfMonth)
                 .build()
                 .show();
