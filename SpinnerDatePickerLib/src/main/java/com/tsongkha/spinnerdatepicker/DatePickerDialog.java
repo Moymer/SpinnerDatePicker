@@ -108,8 +108,12 @@ public class DatePickerDialog extends AlertDialog implements OnClickListener,
 
     @Override
     public void onCustomButtonClick(int date) {
-        mCallBack.onDateSet(mDatePicker, date,
-                date, date);
+        if(mCallBack != null) {
+            mDatePicker.clearFocus();
+            mCallBack.onDateSet(mDatePicker, date,
+                    date, date);
+            this.dismiss();
+        }
     }
 
     private void updateTitle(Calendar updatedDate) {
