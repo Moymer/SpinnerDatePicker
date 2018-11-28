@@ -163,7 +163,9 @@ public class DatePicker extends FrameLayout {
         mDaySpinner.setFormatter(new TwoDigitFormatter());
         mDaySpinner.setOnLongPressUpdateInterval(100);
         mDaySpinner.setOnValueChangedListener(onChangeListener);
+        mDaySpinner.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         mDaySpinnerInput = NumberPickers.findEditText(mDaySpinner);
+        mDaySpinnerInput.setEnabled(false);
 
 
         // month
@@ -175,7 +177,9 @@ public class DatePicker extends FrameLayout {
         mMonthSpinner.setDisplayedValues(mShortMonths);
         mMonthSpinner.setOnLongPressUpdateInterval(200);
         mMonthSpinner.setOnValueChangedListener(onChangeListener);
+        mMonthSpinner.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         mMonthSpinnerInput = NumberPickers.findEditText(mMonthSpinner);
+        mMonthSpinnerInput.setEnabled(false);
 
         // year
         mYearSpinner = (NumberPicker) inflater.inflate(R.layout.number_picker_year,
@@ -183,7 +187,9 @@ public class DatePicker extends FrameLayout {
         mYearSpinner.setId(R.id.year);
         mYearSpinner.setOnLongPressUpdateInterval(100);
         mYearSpinner.setOnValueChangedListener(onChangeListener);
+        mYearSpinner.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         mYearSpinnerInput = NumberPickers.findEditText(mYearSpinner);
+        mYearSpinnerInput.setEnabled(false);
 
         // initialize to current date
         mCurrentDate.setTimeInMillis(System.currentTimeMillis());
